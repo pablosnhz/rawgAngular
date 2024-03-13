@@ -1,27 +1,12 @@
 # Rawg
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.7.
+Haciendo uso de Signals, RxJS, Interceptors, Tailwind, Pipes, LazyLoading, Peticiones HTTP,
 
-## Development server
+Para empezar genere las carpetas para tener un mejor orden genere dos servicios para empezar el auto destroy para no estar especificandolo cada vez que lo necesito sino que lo genere un servicio el cual se encarga del mismo una vez el alguna peticion de no se use mas.
+Despues el service principal, dentro del enviroment declare tanto la apikey como la url de la api, sabiendo los datos que iba a devolver de tipo SearchResult en base a eso cree la interface para traer los datos de 'Games'.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Hice uso del signal para tomar los datos del servicio, el cual al signal llame $games, lo recibo donde me suscribi para asi usarlo mediante un JsonPipe y asi mostrar los datos por el template.
 
-## Code scaffolding
+Para realizar la autenticacion y asi poder acceder a los datos lo hice mediante un Interceptor donde mediante la clonacion y sin cambiar nada agregue a key para tener acceso a los datos.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Defini las rutas por medio de lazyLoading component para que se llamen unicamente cuando se hagan uso de los mismos.

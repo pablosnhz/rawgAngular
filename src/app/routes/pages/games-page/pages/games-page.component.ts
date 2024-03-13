@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { AutoDestroyService } from 'src/app/core/services/utils/auto-destroy.service';
 import { takeUntil } from 'rxjs';
 import { JsonPipe } from '@angular/common';
@@ -13,7 +12,7 @@ import { GameListComponent } from 'src/app/shared/game-list/game-list.component'
   // imports: [JsonPipe],
   standalone: true,
   imports: [GameListComponent],
-  providers: [RouterOutlet, AutoDestroyService],
+  providers: [AutoDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GamesPageComponent implements OnInit{
