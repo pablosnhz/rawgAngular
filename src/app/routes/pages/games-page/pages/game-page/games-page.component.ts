@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AutoDestroyService } from 'src/app/core/services/utils/auto-destroy.service';
-import { takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs';
 import { JsonPipe } from '@angular/common';
-import { GameSearchService } from 'src/app/routes/pages/games-page/services/game-search.service';
 import { GameListComponent } from 'src/app/shared/game-list/game-list.component';
+import { GameSearchService } from 'src/app/core/services/common/game-search.service';
 
 @Component({
   selector: 'app-games-page',
@@ -21,11 +21,17 @@ export class GamesPageComponent implements OnInit{
 
   constructor( private gamesSearchService: GameSearchService, private destroy$: AutoDestroyService ){}
 
+  // * nos suscribimos al evento del query
   ngOnInit(): void {
-    this.gamesSearchService.searchGames().pipe
-    (takeUntil(this.destroy$)).subscribe((data) => {
-      // console.log(data);
-      this.gamesSearchService.setGames(data.results)
-    })
+    this.gamesSearchService.queryString$.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap((title: string) => this.gamesSearchService.searchGames(title)),
+      takeUntil(this.destroy$)).subscribe((data) => this.gamesSearchService.setGames(data.results))
+    // this.gamesSearchService.searchGames().pipe
+    // (takeUntil(this.destroy$)).subscribe((data) => {
+    //   // console.log(data);
+    //   this.gamesSearchService.setGames(data.results)
+    // })
   }
 }

@@ -7,11 +7,11 @@ import { RouterModule, provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { MainLayoutComponent } from './core/main-layout/main-layout.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { GameDetailComponent } from './routes/pages/games-page/pages/game-detail/game-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainLayoutComponent,
   ],
   imports: [
     // CommonModule,
