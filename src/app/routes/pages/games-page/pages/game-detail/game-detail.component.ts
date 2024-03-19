@@ -12,7 +12,7 @@ export class GameDetailComponent implements OnInit{
 
   gameDetails: GameDetails;
 
-  constructor( private route:ActivatedRoute,  ){}
+  constructor( private route:ActivatedRoute ){}
 
   //* segun como lo llame en el resolve del path resolve, en este caso game
   ngOnInit(): void {
