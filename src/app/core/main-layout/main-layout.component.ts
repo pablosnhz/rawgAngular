@@ -4,6 +4,8 @@ import { AutoDestroyService } from '../services/utils/auto-destroy.service';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule, NgModel } from '@angular/forms';
 import { GameSearchService } from '../services/common/game-search.service';
+import { TopBarComponent } from './top-bar/top-bar.component';
+import { AsideBarComponent } from './aside-bar/aside-bar.component';
 
 @Component({
   selector: 'app-main-layout',
@@ -12,23 +14,10 @@ import { GameSearchService } from '../services/common/game-search.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [AutoDestroyService],
   standalone: true,
-  imports: [RouterOutlet, FormsModule]
+  imports: [RouterOutlet, FormsModule, TopBarComponent, AsideBarComponent],
 })
-export class MainLayoutComponent implements OnInit{
+export class MainLayoutComponent {
 
-  queryChange$: Subject<string> = new Subject<string>;
-  query: string = '';
 
-  constructor( private gameSearchService: GameSearchService, private destroy$: AutoDestroyService ){}
-
-  ngOnInit(): void {
-    this.suscribeToInputChanges();
-  }
-
-  suscribeToInputChanges(){
-    this.queryChange$.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
-    .subscribe((query: string) =>
-    this.gameSearchService.setQueryString(query))
-  }
 
 }

@@ -1,23 +1,38 @@
+<div class="relative mb-3">
+  <div class="flex flex-col w-full z-0 group gap-2 rounded-lg shadow-lg
+              lg:hover-scale-110 lg:hover:absolute lg:hover:top-0
+              lg:hover:left-0 lg:hover:z-10 transition-transform duration-300
+              bg-[#202020] text-white">
 
-<a [routerLink]="['/games', game.id]">
-<div
-    class="flex flex-col group gap-5 h-full hover:scale-110 transition-transform rounded-md bg-[#202020] text-white">
-  <img class="w-full h-48" [src]="game.background_image" alt="{{ game.name }}">
-  <div class="p-3 flex flex-col gap-5">
-    <span class="text-1xl font-semibold text-balance">{{ game.name }}</span>
-    <!-- uso de hover para las cards -->
-  <div class="flex-col gap-5 hidden group-hover:flex">
+  <a [routerLink]="['/games', game.id]">
+    <div
+      class="flex flex-col group gap-5 h-full hover:scale-110 transition-transform rounded-md bg-[#202020] text-white">
+    <img class="w-full h-47 rounded-lg object-cover mt-3 px-3" [src]="game.background_image" alt="{{ game.name }}">
+    <div class="p-3 flex flex-col gap-5">
+      <span class="text-1xl font-semibold text-balance hover:text-[#636363]">{{ game.name }}</span>
+      <!-- uso de hover para las cards -->
+    <div class="flex-col gap-5 hidden group-hover:flex">
       <div class="flex justify-between">
-        <span class="text-md text-slate-400">Genres</span>
+        <span class="text-md text-slate-400 text-[#636363]">Genres</span>
         <div class="flex gap-2" *ngFor="let genres of game.genres">
           <span class="text-sm text-white">{{ genres.name }}</span>
         </div>
       </div>
+
+      <hr class="border-[#636363]" />
+
       <div class="flex justify-between">
-          <span class="text-md text-slate-400">Release Date</span>
+          <span class="text-md text-slate-400 text-[#636363]">Release Date</span>
           <span class="text-md text-white">{{ game.released | date: 'dd/MM/yyyy'}}</span>
         </div>
+        <hr class="border-[#636363]" />
       </div>
   </div>
 </div>
 </a>
+
+</div>
+</div>
+
+
+

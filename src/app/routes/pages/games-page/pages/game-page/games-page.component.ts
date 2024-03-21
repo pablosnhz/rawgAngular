@@ -1,37 +1,30 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Signal, signal } from '@angular/core';
 import { AutoDestroyService } from 'src/app/core/services/utils/auto-destroy.service';
 import { debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs';
-import { JsonPipe } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { GameListComponent } from 'src/app/shared/game-list/game-list.component';
 import { GameSearchService } from 'src/app/core/services/common/game-search.service';
+import { SpinnerComponent } from '../../../../../shared/spinner/spinner.component';
+import { AbstractGamesPageComponent } from 'src/app/shared/abstract-games-page/abstract-games-page.component';
+import { SearchFilters } from 'src/app/core/models/search-filters';
 
 @Component({
   selector: 'app-games-page',
-  templateUrl: './games-page.component.html',
-  styleUrls: ['./games-page.component.scss'],
+  // templateUrl: './games-page.component.html',
+  templateUrl: '../../../../../shared/abstract-games-page/abstract-games-page.component.html',
   // imports: [JsonPipe],
   standalone: true,
-  imports: [GameListComponent],
+  imports: [GameListComponent, CommonModule, SpinnerComponent],
   providers: [AutoDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GamesPageComponent implements OnInit{
+export class GamesPageComponent extends AbstractGamesPageComponent{
+  //! nos llevamos la logica que estaba aca al abstract
+  override searchFilters: SearchFilters = {
+    ...this.searchFilters,
+  }
 
-  $games = this.gamesSearchService.$games;
-
-  constructor( private gamesSearchService: GameSearchService, private destroy$: AutoDestroyService ){}
-
-  // * nos suscribimos al evento del query
-  ngOnInit(): void {
-    this.gamesSearchService.queryString$.pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      switchMap((title: string) => this.gamesSearchService.searchGames(title)),
-      takeUntil(this.destroy$)).subscribe((data) => this.gamesSearchService.setGames(data.results))
-    // this.gamesSearchService.searchGames().pipe
-    // (takeUntil(this.destroy$)).subscribe((data) => {
-    //   // console.log(data);
-    //   this.gamesSearchService.setGames(data.results)
-    // })
+  constructor(){
+    super();
   }
 }
