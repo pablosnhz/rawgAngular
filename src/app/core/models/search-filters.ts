@@ -1,6 +1,6 @@
 export interface SearchFilters {
   search?: string,
   page_size?: number,
-  ordening?: string,
+  ordering?: string,
   metacritic?: string
 }

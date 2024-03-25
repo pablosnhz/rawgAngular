@@ -1,8 +1,10 @@
-<nav class="text-white sticky top-0 py-5">
+<nav class="text-white sticky top-0 py-5" >
   <ul class="flex flex-col gap-5">
     <li>
       <a
         [routerLink]="['/']"
+        routerLinkActive="underline underline-offset-8"
+        [routerLinkActiveOptions]="{exact: true}"
         title="Home"
         class="text-2xl block font-bold hover:text-[#636363] transition-colors cursor-pointer"
         >Home</a
@@ -202,6 +204,8 @@
     </li>
     <li>
       <a
+        [routerLink]="['/games']"
+        routerLinkActive="underline underline-offset-8"
         title="Home"
         class="text-2xl block font-bold hover:text-[#636363] transition-colors"
         >All Games</a

@@ -3,8 +3,8 @@
 
 <div class="flex flex-col gap-10">
   <div class="text-white flex flex-col gap-3">
-    <h1 class="text-5xl font-bold">New and trending</h1>
-    <span class="text-md">Based on player counts and release</span>
+    <h1 class="text-5xl font-bold">{{ params.title }}</h1>
+    <span class="text-md">{{ params.subtitle }}</span>
   </div>
 
   <ng-container *ngIf="$loading(); else spinner">

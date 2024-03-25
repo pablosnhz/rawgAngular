@@ -1,17 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, Signal, inject } from '@angular/core';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit, Signal, TemplateRef, inject } from '@angular/core';
 import { debounceTime, distinctUntilChanged, switchMap, takeUntil, tap } from 'rxjs';
 import { GameSearchService } from 'src/app/core/services/common/game-search.service';
 import { AutoDestroyService } from 'src/app/core/services/utils/auto-destroy.service';
 import { GameListComponent } from '../game-list/game-list.component';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { SearchFilters } from 'src/app/core/models/search-filters';
+import { AbstractGamesPageParams } from 'src/app/core/models/abstract-games-page-params';
+
 
 @Component({
   selector: 'app-abstract-games-page',
   templateUrl: './abstract-games-page.component.html',
   styleUrls: ['./abstract-games-page.component.scss'],
-  imports: [GameListComponent, CommonModule, SpinnerComponent],
+  imports: [GameListComponent, CommonModule, SpinnerComponent, NgTemplateOutlet],
   standalone: true,
   providers: [AutoDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -22,7 +24,6 @@ export abstract class AbstractGamesPageComponent implements OnInit{
   private readonly gamesSearchService: GameSearchService = inject(GameSearchService);
   private readonly destroy$: AutoDestroyService = inject(AutoDestroyService);
 
-
   $games = this.gamesSearchService.$games;
   // * recibimos el signal
   $loading: Signal<boolean> = this.gamesSearchService.$loading;
@@ -30,8 +31,12 @@ export abstract class AbstractGamesPageComponent implements OnInit{
   searchFilters: SearchFilters = {
     search: '',
     page_size: 50,
-    // ordening: '-released',
+    // ordering: '-released',
     // metacritic: '80,100'
+  }
+
+  params: AbstractGamesPageParams = {
+    title: 'Please provide a title',
   }
 
   constructor(){} // lo llamamos por private readonly
