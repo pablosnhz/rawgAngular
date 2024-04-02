@@ -27,7 +27,8 @@ export class GameSearchService {
     this.$loading.set(true)
     const params = new HttpParams( {
       fromObject: { ...filters } })
-    return this.HttpClient.get<SearchResult>(environment.BASE_API_URL + 'games', {params})
+    return this.HttpClient
+      .get<SearchResult>(environment.BASE_API_URL + 'games', {params})
     // para el loading
           // .pipe(finalize(() => this.$loading.set(false)))
   }

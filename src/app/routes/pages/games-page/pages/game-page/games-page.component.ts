@@ -8,6 +8,7 @@ import { SpinnerComponent } from '../../../../../shared/spinner/spinner.componen
 import { AbstractGamesPageComponent } from 'src/app/shared/abstract-games-page/abstract-games-page.component';
 import { SearchFilters } from 'src/app/core/models/search-filters';
 import { AbstractGamesPageParams } from 'src/app/core/models/abstract-games-page-params';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-games-page',
@@ -15,7 +16,7 @@ import { AbstractGamesPageParams } from 'src/app/core/models/abstract-games-page
   templateUrl: '../../../../../shared/abstract-games-page/abstract-games-page.component.html',
   // imports: [JsonPipe],
   standalone: true,
-  imports: [GameListComponent, CommonModule, SpinnerComponent, NgTemplateOutlet],
+  imports: [GameListComponent, CommonModule, SpinnerComponent, NgTemplateOutlet, ReactiveFormsModule],
   providers: [AutoDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
