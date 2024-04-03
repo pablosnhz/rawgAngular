@@ -28,6 +28,7 @@ export class GamesPageComponent extends AbstractGamesPageComponent{
   }
 
   override componentParams: AbstractGamesPageParams = {
+    // para el filtro de la directiva if vinculado al select que es iniciado en true
     ...this.componentParams,
     title: 'All Games',
   };

@@ -4,4 +4,5 @@ export interface SearchFilters {
   ordering?: string,
   metacritic?: string,
   platform?: string
+  genre?: string
 }

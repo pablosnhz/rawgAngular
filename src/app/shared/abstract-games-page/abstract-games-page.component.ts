@@ -75,8 +75,9 @@ export abstract class AbstractGamesPageComponent implements OnInit{
   initForm(): void {
     this.form = this.fb.group({
       order: ['-relevance'],
-      platform: []
+      genre: []
     });
+    // iniciamos el formChanges aca para la busqueda por parametros
     this.subcribeToFormChanges();
   }
 
@@ -101,10 +102,10 @@ export abstract class AbstractGamesPageComponent implements OnInit{
   subcribeToFormChanges(): void {
     this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(()=>{
       const ordering = this.form.controls['order'].value;
-      const platform = this.form.controls['platform'].value;
+      const genre = this.form.controls['genre'].value;
       // console.log(order, platform);
       // al usar el break point vemos si pide los datos de los juegos para los filtros
-      this.onFilterChange$.next({ ...this.defaultSearchFilter, ordering, platform })
+      this.onFilterChange$.next({ ...this.defaultSearchFilter, ordering, genre })
 
     })
   }
