@@ -20,15 +20,16 @@ import { SpinnerComponent } from 'src/app/shared/spinner/spinner.component';
 })
 export class NewGamesPageComponent extends AbstractGamesPageComponent{
 
-  override searchFilters: SearchFilters = {
-    ...this.searchFilters,
+  override defaultSearchFilter: SearchFilters = {
+    ...this.defaultSearchFilter,
     ordering: '-released',
     metacritic: '80,100'
   };
 
-  override params: AbstractGamesPageParams = {
+  override componentParams: AbstractGamesPageParams = {
     title: 'New and trending',
-    subtitle: 'Based on player counts and release date'
+    subtitle: 'Based on player counts and release date',
+    showFilters: false
   };
 
   constructor(){

@@ -23,11 +23,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class GamesPageComponent extends AbstractGamesPageComponent{
   //! nos llevamos la logica que estaba aca al abstract
 
-  override searchFilters: SearchFilters = {
-    ...this.searchFilters,
+  override defaultSearchFilter: SearchFilters = {
+    ...this.defaultSearchFilter,
   }
 
-  override params: AbstractGamesPageParams = {
+  override componentParams: AbstractGamesPageParams = {
+    ...this.componentParams,
     title: 'All Games',
   };
 

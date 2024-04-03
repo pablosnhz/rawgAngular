@@ -8,7 +8,6 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 import { SearchFilters } from 'src/app/core/models/search-filters';
 import { AbstractGamesPageParams } from 'src/app/core/models/abstract-games-page-params';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { query } from '@angular/animations';
 
 
 @Component({
@@ -28,22 +27,23 @@ export abstract class AbstractGamesPageComponent implements OnInit{
 
   private readonly fb: FormBuilder = inject(FormBuilder)
   onFilterChange$: Subject<SearchFilters> = new Subject<SearchFilters>();
-  orderPreference: string = 'Relevance';
+  // orderPreference: string = 'Relevance';
   form: FormGroup;
 
   $games = this.gamesSearchService.$games;
   // * recibimos el signal
   $loading: Signal<boolean> = this.gamesSearchService.$loading;
 
-  searchFilters: SearchFilters = {
+  defaultSearchFilter: SearchFilters = {
     search: '',
     page_size: 50,
     // ordering: '-released',
     // metacritic: '80,100'
   }
 
-  params: AbstractGamesPageParams = {
+  componentParams: AbstractGamesPageParams = {
     title: 'Please provide a title',
+    showFilters: true,
   }
 
 
@@ -64,7 +64,9 @@ export abstract class AbstractGamesPageComponent implements OnInit{
     //   // console.log(data);
     //   this.gamesSearchService.setGames(data.results)
     // })
-    this.initForm();
+    if(this.componentParams.showFilters){
+      this.initForm();
+    }
     this.subscribeToFilterChange();
     this.subscribeToQueryChanges();
   }
@@ -72,7 +74,7 @@ export abstract class AbstractGamesPageComponent implements OnInit{
 
   initForm(): void {
     this.form = this.fb.group({
-      order: [],
+      order: ['-relevance'],
       platform: []
     });
     this.subcribeToFormChanges();
@@ -92,7 +94,7 @@ export abstract class AbstractGamesPageComponent implements OnInit{
     this.gamesSearchService.queryString$
     .pipe(takeUntil(this.destroy$))
     .subscribe((query: string)=>{
-      this.onFilterChange$.next({ ...this.searchFilters, search: query })
+      this.onFilterChange$.next({ ...this.defaultSearchFilter, search: query })
     })
   }
 
@@ -102,7 +104,7 @@ export abstract class AbstractGamesPageComponent implements OnInit{
       const platform = this.form.controls['platform'].value;
       // console.log(order, platform);
       // al usar el break point vemos si pide los datos de los juegos para los filtros
-      this.onFilterChange$.next({ ...this.searchFilters, ordering, platform })
+      this.onFilterChange$.next({ ...this.defaultSearchFilter, ordering, platform })
 
     })
   }

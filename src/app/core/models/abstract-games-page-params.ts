@@ -1,4 +1,5 @@
 export interface AbstractGamesPageParams {
-  title: string,
+  title: string;
   subtitle?: string;
+  showFilters?: boolean;
 }
