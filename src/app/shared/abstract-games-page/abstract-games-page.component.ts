@@ -8,6 +8,8 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 import { SearchFilters } from 'src/app/core/models/search-filters';
 import { AbstractGamesPageParams } from 'src/app/core/models/abstract-games-page-params';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { GenreService } from 'src/app/routes/pages/games-page/services/genre.service';
+import { Genre, GenresResult } from 'src/app/core/models/genres';
 
 
 @Component({
@@ -29,6 +31,10 @@ export abstract class AbstractGamesPageComponent implements OnInit{
   onFilterChange$: Subject<SearchFilters> = new Subject<SearchFilters>();
   // orderPreference: string = 'Relevance';
   form: FormGroup;
+
+  private readonly genresService: GenreService = inject(GenreService);
+  $genres: Signal<Genre[]> = this.genresService.$genres;
+
 
   $games = this.gamesSearchService.$games;
   // * recibimos el signal
@@ -67,6 +73,7 @@ export abstract class AbstractGamesPageComponent implements OnInit{
     if(this.componentParams.showFilters){
       this.initForm();
     }
+    this.getGenres();
     this.subscribeToFilterChange();
     this.subscribeToQueryChanges();
   }
@@ -75,7 +82,7 @@ export abstract class AbstractGamesPageComponent implements OnInit{
   initForm(): void {
     this.form = this.fb.group({
       order: ['-relevance'],
-      genre: []
+      genres: ['']
     });
     // iniciamos el formChanges aca para la busqueda por parametros
     this.subcribeToFormChanges();
@@ -102,13 +109,19 @@ export abstract class AbstractGamesPageComponent implements OnInit{
   subcribeToFormChanges(): void {
     this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(()=>{
       const ordering = this.form.controls['order'].value;
-      const genre = this.form.controls['genre'].value;
+      const genres = this.form.controls['genres'].value;
       // console.log(order, platform);
       // al usar el break point vemos si pide los datos de los juegos para los filtros
-      this.onFilterChange$.next({ ...this.defaultSearchFilter, ordering, genre })
+      this.onFilterChange$.next({ ...this.defaultSearchFilter, ordering, genres })
 
     })
   }
 
+  // funcion genre
+  getGenres():void {
+    this.genresService.getGenres().pipe(takeUntil(this.destroy$)).subscribe((genres: GenresResult) => {
+      this.genresService.setGenres(genres.results);
+    })
+  }
 
 }

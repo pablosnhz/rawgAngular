@@ -7,7 +7,7 @@
     <span class="text-md">{{ componentParams.subtitle }}</span>
   </div>
 
-  <div *ngIf="componentParams.showFilters">
+  <div *ngIf="componentParams.showFilters" >
     <form [formGroup]="form" class="flex gap-3">
       <div>
         <label for="countries" class="block mb-2 text-sm font-medium text-white">Order by</label>
@@ -26,13 +26,9 @@
         <label for="countries" class="block mb-2 text-sm font-medium text-white">Genre</label>
         <select id="countries"
         class="bg-[#202020] text-white text-sm rounded-lg block w-full p-2.5 outline-none"
-        formControlName="platform">
-        <option selected value>Platforms</option>
-        <option value="CA">Date added</option>
-        <option value="CA">Name</option>
-        <option value="FR">Release date</option>
-        <option value="US">Popularity</option>
-        <option value="DE">Average rating</option>
+        formControlName="genres">
+        <option value="" disabled selected>Select your option</option>
+          <option *ngFor="let genre of $genres()" [value]="genre.id">{{ genre.name }}</option>
         </select>
       </div>
 
