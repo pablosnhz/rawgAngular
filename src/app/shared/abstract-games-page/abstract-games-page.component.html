@@ -1,6 +1,15 @@
 <!-- mostramos todos los datos por un json -->
 <!-- <h1 class="text-2xl text-white font-bold">{{ $games() | json }}</h1> -->
 
+
+<div
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScroll()"
+    >
+
 <div class="flex flex-col gap-10">
   <div class="text-white flex flex-col gap-3">
     <h1 class="text-5xl font-bold">{{ componentParams.title }}</h1>
@@ -35,12 +44,11 @@
     </form>
   </div>
 
-  <ng-container *ngIf="$loading(); else spinner">
-    <app-game-list [games]="$games()"></app-game-list>
-  </ng-container>
-  <ng-template #spinner>
+  <app-game-list [games]="$games()"></app-game-list>
+  <div *ngIf="$loading()">
     <div class="flex items-center justify-center">
       <app-spinner></app-spinner>
     </div>
-  </ng-template>
+  </div>
+</div>
 </div>

@@ -20,11 +20,18 @@ export class GameSearchService {
   private queryString: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public queryString$ = this.queryString.asObservable();
 
+  public nextUlr: string = '';
+
   constructor( private HttpClient: HttpClient ) { }
 
   // * mediante el params hacemos la busqueda del inputSearch en el mainLayout
   searchGames(filters: SearchFilters): Observable<SearchResult>{
     this.$loading.set(true)
+    if(this.nextUlr){
+      return this.HttpClient
+        .get<SearchResult>(this.nextUlr)
+        .pipe(finalize(() => this.$loading.set(false)));
+    }
     const params = new HttpParams( {
       fromObject: { ...filters } })
     return this.HttpClient
@@ -36,7 +43,14 @@ export class GameSearchService {
   // aplico el signal aca
   setGames(games: Game[]): void {
     this.$loading.set(true);
-    this.$games.set(games);
+    // update para recibir actualizaciones mediante el uso del infiinite scroll
+    this.$games.update((values: Game[])=> {
+      return [...values, ...games]
+    })
+  }
+
+  setNextUrl(nextUrl: string): void {
+    this.nextUlr = nextUrl
   }
 
   setQueryString(queryString: string): void {

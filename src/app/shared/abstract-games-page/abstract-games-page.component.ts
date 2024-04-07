@@ -10,13 +10,14 @@ import { AbstractGamesPageParams } from 'src/app/core/models/abstract-games-page
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GenreService } from 'src/app/routes/pages/games-page/services/genre.service';
 import { Genre, GenresResult } from 'src/app/core/models/genres';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @Component({
   selector: 'app-abstract-games-page',
   templateUrl: './abstract-games-page.component.html',
   styleUrls: ['./abstract-games-page.component.scss'],
-  imports: [GameListComponent, CommonModule, SpinnerComponent, NgTemplateOutlet, ReactiveFormsModule],
+  imports: [GameListComponent, CommonModule, SpinnerComponent, NgTemplateOutlet, ReactiveFormsModule, InfiniteScrollModule],
   standalone: true,
   providers: [AutoDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -88,6 +89,11 @@ export abstract class AbstractGamesPageComponent implements OnInit{
     this.subcribeToFormChanges();
   }
 
+
+  onScroll() {
+    this.onFilterChange$.next(this.defaultSearchFilter);
+  }
+
   // de este modo traemos los filtros
   subscribeToFilterChange(): void {
     this.onFilterChange$
@@ -95,7 +101,11 @@ export abstract class AbstractGamesPageComponent implements OnInit{
       switchMap((filters: SearchFilters) =>
         this.gamesSearchService.searchGames(filters)),
       takeUntil(this.destroy$))
-      .subscribe((data) => this.gamesSearchService.setGames(data.results))
+      .subscribe((data) => {
+        this.gamesSearchService.setNextUrl(data.next);
+        this.gamesSearchService.setGames(data.results);
+      }
+    )
   }
 
   subscribeToQueryChanges():void {
@@ -123,5 +133,6 @@ export abstract class AbstractGamesPageComponent implements OnInit{
       this.genresService.setGenres(genres.results);
     })
   }
+
 
 }
