@@ -43,12 +43,12 @@
 
     </form>
   </div>
-
-  <app-game-list [games]="$games()"></app-game-list>
   <div *ngIf="$loading()">
+    <app-game-list [games]="$games()"></app-game-list>
     <div class="flex items-center justify-center">
       <app-spinner></app-spinner>
     </div>
   </div>
 </div>
+
 </div>

@@ -47,6 +47,7 @@ export class GameSearchService {
     this.$games.update((values: Game[])=> {
       return [...values, ...games]
     })
+    console.log(this.$games())
   }
 
   setNextUrl(nextUrl: string): void {
