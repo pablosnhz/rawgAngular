@@ -1,6 +1,6 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, Signal, TemplateRef, inject } from '@angular/core';
-import { Subject, debounceTime, distinctUntilChanged, merge, switchMap, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, Subject, debounceTime, distinctUntilChanged, exhaustMap, merge, switchMap, takeUntil, tap } from 'rxjs';
 import { GameSearchService } from 'src/app/core/services/common/game-search.service';
 import { AutoDestroyService } from 'src/app/core/services/utils/auto-destroy.service';
 import { GameListComponent } from '../game-list/game-list.component';
@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GenreService } from 'src/app/routes/pages/games-page/services/genre.service';
 import { Genre, GenresResult } from 'src/app/core/models/genres';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { Game, SearchResult } from 'src/app/core/models/game';
 
 
 @Component({
@@ -29,13 +30,14 @@ export abstract class AbstractGamesPageComponent implements OnInit{
   private readonly destroy$: AutoDestroyService = inject(AutoDestroyService);
 
   private readonly fb: FormBuilder = inject(FormBuilder)
-  onFilterChange$: Subject<SearchFilters> = new Subject<SearchFilters>();
   // orderPreference: string = 'Relevance';
   form: FormGroup;
 
   private readonly genresService: GenreService = inject(GenreService);
   $genres: Signal<Genre[]> = this.genresService.$genres;
 
+  scrolled$: Subject<void> = new Subject<void>();
+  filters$: BehaviorSubject<SearchFilters>;
 
   $games = this.gamesSearchService.$games;
   // * recibimos el signal
@@ -71,12 +73,17 @@ export abstract class AbstractGamesPageComponent implements OnInit{
     //   // console.log(data);
     //   this.gamesSearchService.setGames(data.results)
     // })
+    // * inicializamos el filtro refactorizado
+    this.filters$ = new BehaviorSubject<SearchFilters>({
+      ...this.defaultSearchFilter
+    });
     if(this.componentParams.showFilters){
       this.initForm();
     }
     this.getGenres();
     this.subscribeToFilterChange();
     this.subscribeToQueryChanges();
+    this.subscribeInfiniteScroll();
   }
 
 
@@ -89,30 +96,39 @@ export abstract class AbstractGamesPageComponent implements OnInit{
     this.subcribeToFormChanges();
   }
 
-
-  onScroll() {
-    this.onFilterChange$.next(this.defaultSearchFilter);
-  }
-
   // de este modo traemos los filtros
   subscribeToFilterChange(): void {
-    this.onFilterChange$
+    this.filters$
     .pipe(
+      tap(() => this.$games.set([])),
       switchMap((filters: SearchFilters) =>
         this.gamesSearchService.searchGames(filters)),
       takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.gamesSearchService.setNextUrl(data.next);
-        this.gamesSearchService.setGames(data.results);
+      .subscribe((data: SearchResult) => {
+        this.$games.set(data.results)
       }
     )
+  }
+
+  subscribeInfiniteScroll(): void {
+    this.scrolled$
+    .pipe(
+      exhaustMap(() => {
+        return this.gamesSearchService.nextPageScroll()
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe((data: SearchResult) => {
+      this.$games.update((values: Game[]) => {
+        return [...values, ...data.results]
+      })
+    })
   }
 
   subscribeToQueryChanges():void {
     this.gamesSearchService.queryString$
     .pipe(takeUntil(this.destroy$))
     .subscribe((query: string)=>{
-      this.onFilterChange$.next({ ...this.defaultSearchFilter, search: query })
+      this.filters$.next({ ...this.defaultSearchFilter, search: query })
     })
   }
 
@@ -122,7 +138,7 @@ export abstract class AbstractGamesPageComponent implements OnInit{
       const genres = this.form.controls['genres'].value;
       // console.log(order, platform);
       // al usar el break point vemos si pide los datos de los juegos para los filtros
-      this.onFilterChange$.next({ ...this.defaultSearchFilter, ordering, genres })
+      this.filters$.next({ ...this.defaultSearchFilter, ordering, genres })
 
     })
   }

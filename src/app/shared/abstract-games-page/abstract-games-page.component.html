@@ -7,7 +7,7 @@
       infiniteScroll
       [infiniteScrollDistance]="2"
       [infiniteScrollThrottle]="50"
-      (scrolled)="onScroll()"
+      (scrolled)="scrolled$.next()"
     >
 
 <div class="flex flex-col gap-10">
@@ -43,8 +43,8 @@
 
     </form>
   </div>
+  <app-game-list [games]="$games()"></app-game-list>
   <div *ngIf="$loading()">
-    <app-game-list [games]="$games()"></app-game-list>
     <div class="flex items-center justify-center">
       <app-spinner></app-spinner>
     </div>

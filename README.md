@@ -33,3 +33,5 @@ Basicamente con esto creamos funciones para las cuales hicimos un form para defi
 
 INFINITE SCROLL
 Para el infinite scroll instale el npm con la version actual que uso en Angular, el metodo scroll lo voy a manejar por mi componente abstracto el cual va a tener mediante el next que recibimos por el network que seria el data.next que seteamos en el filtro que nos devuelve el results.
+
+Tuve problemas con el funcionamiento del scroll infinito si bien lo tomaba y todo parecia bien, al navegar entre template se veia reflejados los mismos resultados en los mismos como tambien en consola esperando otros resultados para mostrar, logre acomodarlo separandolo por funciones diferentes por una parte el funcionamiento del scroll y por otro el resultado por pantalla que vienen por filtros.
