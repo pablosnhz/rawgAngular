@@ -35,6 +35,7 @@ export class GameSearchService {
     return this.httpClient
       .get<SearchResult>(`${environment.BASE_API_URL}games`, { params })
       .pipe(
+          finalize(() => this.$loading.set(false)),
           tap((result) => (this.nextUlr = result.next))
       )
   }
@@ -56,6 +57,7 @@ export class GameSearchService {
   nextPageScroll():Observable<SearchResult> {
     this.$loading.set(true)
     return this.httpClient.get<SearchResult>(this.nextUlr).pipe(
+      finalize(() => this.$loading.set(false)),
       tap((result) => (this.nextUlr = result.next)),
     )
   }

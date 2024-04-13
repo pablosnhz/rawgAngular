@@ -1,28 +1,27 @@
 .masonry-grid {
   column-count: 1;
   column-gap: 1rem;
-}
 
-@media (min-width: 768px) {
-  .masonry-grid {
-      column-count: 2;
+
+  @media (min-width: 768px) {
+    column-count: 2;
   }
-}
 
-@media (min-width: 1024px) {
-  .masonry-grid {
-      column-count: 3;
+  @media (min-width: 1024px) {
+    column-count: 3;
   }
-}
 
-@media (min-width: 1280px) {
-  .masonry-grid {
-      column-count: 5;
+  @media (min-width: 1280px) {
+    column-count: 5;
   }
 }
 
 .masonry-item {
-  break-inside: avoid;
-  margin-bottom: 1rem;
-  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 30vh;
+  break-inside: avoid-column;
+  margin-bottom: 0.5rem;
 }
+
