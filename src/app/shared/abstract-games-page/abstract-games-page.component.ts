@@ -17,7 +17,6 @@ import { Game, SearchResult } from 'src/app/core/models/game';
 @Component({
   selector: 'app-abstract-games-page',
   templateUrl: './abstract-games-page.component.html',
-  styleUrls: ['./abstract-games-page.component.scss'],
   imports: [GameListComponent, CommonModule, SpinnerComponent, NgTemplateOutlet, ReactiveFormsModule, InfiniteScrollModule],
   standalone: true,
   providers: [AutoDestroyService],
@@ -47,7 +46,8 @@ export abstract class AbstractGamesPageComponent implements OnInit{
     search: '',
     page_size: 50,
     // ordering: '-released',
-    // metacritic: '80,100'
+    // metacritic: '80,100',
+    genres: '',
   }
 
   componentParams: AbstractGamesPageParams = {

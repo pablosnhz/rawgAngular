@@ -3,20 +3,20 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { RouterModule, provideRouter } from '@angular/router';
+import { RouterModule, provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { GenrePageComponent } from './routes/pages/games-page/pages/genre-page/genre-page.component';
+import { log } from 'firebase-functions/logger';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    // CommonModule,
     BrowserModule,
-    // importo el http
     HttpClientModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { bindToComponentInputs: true }),
   ],
   // para el uso standalone http
   providers: [
@@ -25,9 +25,11 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }
-
-],
+    },
+    // [provideRouter([
+    //   { component: GenrePageComponent, path: 'test'},
+    // ], withComponentInputBinding())],
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
