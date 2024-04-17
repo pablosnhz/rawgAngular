@@ -1,5 +1,5 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AbstractGamesPageParams } from 'src/app/core/models/abstract-games-page-params';
@@ -44,9 +44,16 @@ export class GenrePageComponent extends AbstractGamesPageComponent implements On
   }
 
   override ngOnInit(): void {
-    super.ngOnInit();
-    this.setGenreParams();
-    console.log(this.genre)
+    // this.setGenreParams();
+    // super.ngOnInit();
+    // console.log(this.genre)
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['genre']) {
+      this.setGenreParams();
+      super.ngOnInit();
+    }
   }
 
   setGenreParams():void {

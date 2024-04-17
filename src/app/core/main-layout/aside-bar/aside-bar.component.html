@@ -216,9 +216,9 @@
         class="text-2xl block font-bold hover:text-[#636363] transition-colors"
         >Genres</a
       >
-      <ul class="flex flex-col gap-2">
+      <ul class="flex flex-col gap-2"  *ngFor="let genre of $genres().slice(0, 4)">
         <li>
-          <a href="#" class="text-lg font-normal flex items-center gap-2 group">
+          <a [routerLink]="['/genre', genre.name]" class="text-lg font-normal flex items-center gap-2 group">
             <span
               class="p-2 bg-[#202020] text-white rounded-xl group-hover:bg-white group-hover:text-[#202020] transition-colors duration-300"
             >
@@ -233,12 +233,14 @@
                 fill="none"
                 stroke-linecap="round"
                 stroke-linejoin="round"
+
               >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z" />
               </svg>
+              <!-- <img [src]="genre.image_background"> -->
             </span>
-            <span class="text-sm">All time top 250</span>
+            <span class="text-sm">{{ genre.name }}</span>
           </a>
         </li>
       </ul>

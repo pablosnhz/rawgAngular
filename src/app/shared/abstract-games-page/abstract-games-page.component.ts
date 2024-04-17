@@ -80,7 +80,6 @@ export abstract class AbstractGamesPageComponent implements OnInit{
     if(this.componentParams.showFilters){
       this.initForm();
     }
-    this.getGenres();
     this.subscribeToFilterChange();
     this.subscribeToQueryChanges();
     this.subscribeInfiniteScroll();
@@ -143,12 +142,8 @@ export abstract class AbstractGamesPageComponent implements OnInit{
     })
   }
 
-  // funcion genre
-  getGenres():void {
-    this.genresService.getGenres().pipe(takeUntil(this.destroy$)).subscribe((genres: GenresResult) => {
-      this.genresService.setGenres(genres.results);
-    })
-  }
+  // funcion genre que pasamo al nuevo genre component que creamos
+
 
 
 }
