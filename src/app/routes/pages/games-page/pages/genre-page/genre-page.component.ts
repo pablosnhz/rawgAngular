@@ -43,11 +43,11 @@ export class GenrePageComponent extends AbstractGamesPageComponent implements On
     }
   }
 
-  override ngOnInit(): void {
-    // this.setGenreParams();
-    // super.ngOnInit();
-    // console.log(this.genre)
-  }
+  // override ngOnInit(): void {
+  //   this.setGenreParams();
+  //   super.ngOnInit();
+  //   console.log(this.genre)
+  // }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['genre']) {
@@ -60,7 +60,7 @@ export class GenrePageComponent extends AbstractGamesPageComponent implements On
     this.componentParams.title = this.genre.slice(0, 1).toUpperCase() + this.genre.slice(1);
     this.defaultSearchFilter = {
       ...this.defaultSearchFilter,
-      genres: this.genre.toLocaleLowerCase()
+      genres : this.genre.toLocaleLowerCase()
     }
   }
 }
