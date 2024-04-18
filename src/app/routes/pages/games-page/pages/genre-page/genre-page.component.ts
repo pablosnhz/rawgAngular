@@ -1,8 +1,10 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { AbstractGamesPageParams } from 'src/app/core/models/abstract-games-page-params';
+import { Genre } from 'src/app/core/models/game';
 import { SearchFilters } from 'src/app/core/models/search-filters';
 import { AutoDestroyService } from 'src/app/core/services/utils/auto-destroy.service';
 import { AbstractGamesPageComponent } from 'src/app/shared/abstract-games-page/abstract-games-page.component';
@@ -36,31 +38,33 @@ export class GenrePageComponent extends AbstractGamesPageComponent implements On
     title: 'Genre'
   };
 
-  constructor(){
+  constructor( private route: Router ){
     super();
-    this.defaultSearchFilter = {
-      ...this.defaultSearchFilter
-    }
   }
 
-  // override ngOnInit(): void {
-  //   this.setGenreParams();
-  //   super.ngOnInit();
-  //   console.log(this.genre)
-  // }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['genre']) {
+  override ngOnInit(): void {
+    if(!this.$genres().find((genre) => genre.name.toLowerCase() === this.genre.toLowerCase())){
+      this.route.navigate(['/']);
+    } else {
       this.setGenreParams();
       super.ngOnInit();
     }
   }
 
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['genre']) {
+  //     this.setGenreParams();
+  //     super.ngOnInit();
+  //   }
+  // }
+
   setGenreParams():void {
     this.componentParams.title = this.genre.slice(0, 1).toUpperCase() + this.genre.slice(1);
+
+    const genre: Genre = this.$genres().find((genre) => genre.name.toLowerCase() === this.genre.toLowerCase())!;
     this.defaultSearchFilter = {
       ...this.defaultSearchFilter,
-      genres : this.genre.toLocaleLowerCase()
+      genres : genre.id.toString()
     }
   }
 }

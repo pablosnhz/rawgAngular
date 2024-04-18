@@ -1,0 +1,21 @@
+<div *ngIf="$loading()">
+  <app-spinner class="flex justify-center"></app-spinner>
+</div>
+
+<div class="text-white flex flex-col gap-3 text-center sm:text-left">
+  <p class="text-4xl md:text-4xl lg:text-6xl xl:text-6xl font-bold mb-3">Genres</p>
+</div>
+<article class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
+  <div *ngFor="let genre of $genres()" class="relative">
+    <figure class="rounded overflow-hidden">
+      <img class="rounded h-[230px] w-full object-cover" [src]="genre.image_background" [alt]="genre.name">
+      <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-100"></div>
+      <figcaption class="absolute inset-0 flex flex-col items-center justify-center">
+        <a [routerLink]="['/genre', genre.name]" class="text-white text-center text-2xl hover:text-[#636363] font-bold underline">
+          {{ genre.name }}
+        </a>
+        <button type="button" class="text-white hover:text-[#000000] mt-3 bg-gray-900 hover:bg-gray-100 focus:ring-4 focus:ring-gray-900 rounded-lg text-sm px-6 py-2.5 mb-2 opacity-75">Follow</button>
+      </figcaption>
+    </figure>
+  </div>
+</article>

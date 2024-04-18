@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { RouterModule, provideRouter, withComponentInputBinding } from '@angular/router';
+import { RouteReuseStrategy, RouterModule, provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { GenrePageComponent } from './routes/pages/games-page/pages/genre-page/genre-page.component';
-import { log } from 'firebase-functions/logger';
+import { RouteReuseStrategyChange } from './core/models/route-reuse-strategy';
+import { GenresPageComponent } from './routes/pages/games-page/pages/genres-page/genres-page.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +16,8 @@ import { log } from 'firebase-functions/logger';
   imports: [
     BrowserModule,
     HttpClientModule,
+
+
     RouterModule.forRoot(routes, { bindToComponentInputs: true }),
   ],
   // para el uso standalone http
@@ -26,6 +28,10 @@ import { log } from 'firebase-functions/logger';
       useClass: AuthInterceptor,
       multi: true,
     },
+    {
+      provide: RouteReuseStrategy,
+      useClass: RouteReuseStrategyChange
+    }
     // [provideRouter([
     //   { component: GenrePageComponent, path: 'test'},
     // ], withComponentInputBinding())],

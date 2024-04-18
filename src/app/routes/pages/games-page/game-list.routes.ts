@@ -4,6 +4,7 @@ import { GameDetailComponent } from "./pages/game-detail/game-detail.component";
 import { GamesPageComponent } from "./pages/game-page/games-page.component";
 import { NewGamesPageComponent } from "./pages/new-games-page/new-games-page.component";
 import { GenrePageComponent } from "./pages/genre-page/genre-page.component";
+import { GenresPageComponent } from "./pages/genres-page/genres-page.component";
 
 export const GAME_LIST_ROUTES: Routes = [
   {
@@ -24,6 +25,13 @@ export const GAME_LIST_ROUTES: Routes = [
   {
     path: 'genre/:genre',
     component: GenrePageComponent,
+    data: {
+      doNotReuse: true,
+    }
   },
+  {
+    path: 'genres',
+    component: GenresPageComponent
+  }
 ]
 ;

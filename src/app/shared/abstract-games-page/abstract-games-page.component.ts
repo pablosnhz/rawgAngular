@@ -106,14 +106,14 @@ export abstract class AbstractGamesPageComponent implements OnInit{
       .subscribe((data: SearchResult) => {
         this.$games.set(data.results)
       }
-    )
+    );
   }
 
   subscribeInfiniteScroll(): void {
     this.scrolled$
     .pipe(
       exhaustMap(() => {
-        return this.gamesSearchService.nextPageScroll()
+        return this.gamesSearchService.nextPageScroll();
       }),
       takeUntil(this.destroy$)
     ).subscribe((data: SearchResult) => {
