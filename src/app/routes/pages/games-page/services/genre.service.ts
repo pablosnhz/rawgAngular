@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Signal, WritableSignal, signal } from '@angular/core';
-import { Observable, finalize, map, of, tap } from 'rxjs';
+import { Observable, delay, finalize, map, of, tap } from 'rxjs';
 import { environment } from '../../../../../environments/environment.development';
 import { Genre, GenresResult } from 'src/app/core/models/genres';
 
@@ -15,7 +15,7 @@ export class GenreService {
   constructor( private httpClient: HttpClient ) { }
 
   getGenres(): Observable<Genre[]> {
-    this.$loading.set(true);
+    this.$loading.set(false);
     if(this.$genres().length > 0){
       return of(this.$genres())
     }

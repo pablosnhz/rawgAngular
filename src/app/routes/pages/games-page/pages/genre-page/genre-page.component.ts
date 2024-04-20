@@ -51,22 +51,28 @@ export class GenrePageComponent extends AbstractGamesPageComponent implements On
     }
   }
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if (changes['genre']) {
-  //     this.setGenreParams();
-  //     super.ngOnInit();
-  //   }
-  // }
 
-  setGenreParams():void {
-    this.componentParams.title = this.genre.slice(0, 1).toUpperCase() + this.genre.slice(1);
 
-    const genre: Genre = this.$genres().find((genre) => genre.name.toLowerCase() === this.genre.toLowerCase())!;
-    this.defaultSearchFilter = {
-      ...this.defaultSearchFilter,
-      genres : genre.id.toString()
+    setGenreParams():void {
+
+      const genre: Genre = this.$genres().find(
+        (genre) => genre.name.toLowerCase() === this.genre.toLowerCase())!;
+
+      this.componentParams.title = this.genre.slice(0, 1).toUpperCase() + this.genre.slice(1);
+
+      this.defaultSearchFilter = {
+        ...this.defaultSearchFilter,
+        genres : genre.id.toString()
+      }
     }
-  }
+
+
+    // ngOnChanges(changes: SimpleChanges) {
+    //   if (changes['genre']) {
+    //     this.setGenreParams();
+    //     super.ngOnInit();
+    //   }
+    // }
 }
 
 

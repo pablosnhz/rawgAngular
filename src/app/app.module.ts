@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -7,7 +7,15 @@ import { RouteReuseStrategy, RouterModule, provideRouter } from '@angular/router
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { RouteReuseStrategyChange } from './core/models/route-reuse-strategy';
-import { GenresPageComponent } from './routes/pages/games-page/pages/genres-page/genres-page.component';
+import { GenreService } from './routes/pages/games-page/services/genre.service';
+
+import { firstValueFrom } from 'rxjs';
+import { AuthLayoutComponent } from './core/layout/auth-layout/auth-layout.component';
+
+function init(genreService: GenreService) {
+  return () =>  firstValueFrom(genreService.getGenres());
+}
+
 
 @NgModule({
   declarations: [
@@ -31,7 +39,13 @@ import { GenresPageComponent } from './routes/pages/games-page/pages/genres-page
     {
       provide: RouteReuseStrategy,
       useClass: RouteReuseStrategyChange
-    }
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: init,
+      deps: [GenreService],
+      multi: true,
+    },
     // [provideRouter([
     //   { component: GenrePageComponent, path: 'test'},
     // ], withComponentInputBinding())],
