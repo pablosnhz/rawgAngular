@@ -54,7 +54,6 @@ export class GenrePageComponent extends AbstractGamesPageComponent implements On
 
 
     setGenreParams():void {
-
       const genre: Genre = this.$genres().find(
         (genre) => genre.name.toLowerCase() === this.genre.toLowerCase())!;
 
