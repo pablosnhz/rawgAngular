@@ -10,11 +10,22 @@
   </div>
 
   <div class="p-8 flex flex-col justify-center">
-  <form action="" class="flex flex-col gap-5 w-80">
+  <form [formGroup]="form" (ngSubmit)="submitClicked$.next()" class="flex flex-col gap-5 w-80">
     <h2 class="text-4xl text-white">Log in</h2>
-    <input type="text" placeholder="Email" class="rounded-xl bg-gray-900 border-none">
-    <input type="password" placeholder="Password" class="rounded-xl bg-gray-900 border-none">
-    <button class="hover:text-[#000000] rounded- mt-3 bg-[#FFFFFF] hover:bg-gray-100 focus:ring-4 focus:ring-gray-900 rounded-lg text-sm px-6 py-2.5 mb-2">Log in</button>
+    <input formControlName="email" Name="email" type="text" placeholder="Email" class="rounded-xl bg-gray-900 border-none text-white">
+    <input formControlName="password" type="password" placeholder="Password" class="rounded-xl bg-gray-900 border-none text-white">
+      <button class="hover:text-[#000000] rounded- mt-3 bg-[#FFFFFF] hover:bg-gray-100 focus:ring-4 focus:ring-gray-900 rounded-lg text-sm px-6 py-2.5 mb-2">
+        Log in
+        <div *ngIf="$loading()">
+          <app-spinner></app-spinner>
+        </div>
+      </button>
+
+    <div class="flex items-center">
+      <input id="link-checkbox" type="checkbox" formControlName="rememberMe" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="link-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
+    </div>
+
     <div class="p-4 flex flex-col justify-center items-center gap-2">
       <p class="underline text-white text-xs">Don't have an account? Sign up.</p>
       <p class="underline text-white text-xs">Forget your password?</p>
