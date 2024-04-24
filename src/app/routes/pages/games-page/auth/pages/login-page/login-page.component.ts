@@ -6,6 +6,9 @@ import { AuthService } from '../../../../../../core/services/common/auth.service
 import { User } from 'src/app/core/models/user';
 import { SpinnerComponent } from 'src/app/shared/spinner/spinner.component';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { StorageService } from 'src/app/core/services/common/storage.service';
+import { USER_STORAGE_KEY } from 'src/app/core/constants/user-storage-key';
 
 @Component({
   selector: 'app-login-page',
@@ -23,7 +26,13 @@ export class LoginPageComponent implements OnInit{
   rememberMe: boolean = false;
   $loading: Signal<boolean> = this.authService.$loading
 
-  constructor( private fb: FormBuilder, private destroy$: AutoDestroyService, private authService: AuthService ){}
+  constructor(
+    private fb: FormBuilder,
+    private destroy$: AutoDestroyService,
+    private authService: AuthService,
+    private router: Router,
+    private storageService: StorageService
+  ){}
 
   ngOnInit(): void {
     this.initForm();
@@ -47,7 +56,7 @@ export class LoginPageComponent implements OnInit{
           Object.values(this.form.controls).forEach(control => {
             if(control.invalid){
               control.markAsDirty();
-              control.updateValueAndValidity({ onlySelf: true })
+              control.updateValueAndValidity({ onlySelf: true });
             }
           })
         }
@@ -57,7 +66,10 @@ export class LoginPageComponent implements OnInit{
         this.authService.login( this.form.value ))
     )
     .subscribe((user: User) => {
-      console.log('user', user);
+      // console.log('user', user);
+      this.storageService.set(USER_STORAGE_KEY, JSON.stringify(user),
+      this.form.value.rememberMe ?  localStorage : sessionStorage);
+      this.router.navigate(['/']);
     })
   }
 

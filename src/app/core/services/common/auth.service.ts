@@ -1,6 +1,8 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
-import { Observable, of, finalize, delay } from 'rxjs';
+import { Observable, of, finalize, delay, tap } from 'rxjs';
 import { User } from '../../models/user';
+import { StorageService } from './storage.service';
+import { USER_STORAGE_KEY } from '../../constants/user-storage-key';
 
 @Injectable({
   providedIn: 'root'
@@ -8,17 +10,39 @@ import { User } from '../../models/user';
 export class AuthService {
 
   $loading: WritableSignal<boolean> = signal(false);
+  $user: WritableSignal<User | null> = signal(null);
 
-  constructor(  ) { }
+  constructor( private storageService: StorageService ) { }
 
   login({email, password, rememberMe}: {email: string, password: string, rememberMe: boolean}): Observable<User>  {
     this.$loading.set(true);
     // console.log('login', email, password, rememberMe);
-    return of( { email, name: 'Emesse Enne' })
+    const user: User = {
+      email,
+      name: 'Emesse Enne'
+    }
+    return of(user)
     .pipe(
-      delay((1500)),
+      // delay para el spinner
+      delay((1000)),
+      tap((user: User) =>
+        this.$user.set(user)),
       finalize(() => this.$loading.set(false))
     )
   }
-}
 
+  setUserFromStorage(): Observable<void> {
+    return new Observable((observer) => {
+      const user: User = this.storageService.get(USER_STORAGE_KEY)
+      ? JSON.parse(this.storageService.get(USER_STORAGE_KEY)) : null;
+    this.$user.set(user);
+    observer.next();
+    observer.complete();
+    })
+  }
+
+  logout(): void {
+    this.$user.set(null);
+    this.storageService.remove(USER_STORAGE_KEY);
+  }
+}

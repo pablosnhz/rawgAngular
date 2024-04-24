@@ -10,9 +10,14 @@ import { RouteReuseStrategyChange } from './core/models/route-reuse-strategy';
 import { GenreService } from './routes/pages/games-page/services/genre.service';
 
 import { firstValueFrom } from 'rxjs';
+import { AuthService } from './core/services/common/auth.service';
 
 function init(genreService: GenreService) {
   return () =>  firstValueFrom(genreService.getGenres());
+}
+
+function initUser(authService: AuthService) {
+  return () =>  firstValueFrom(authService.setUserFromStorage());
 }
 
 
@@ -43,6 +48,12 @@ function init(genreService: GenreService) {
       provide: APP_INITIALIZER,
       useFactory: init,
       deps: [GenreService],
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initUser,
+      deps: [AuthService],
       multi: true,
     },
     // [provideRouter([
