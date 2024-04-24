@@ -10,7 +10,6 @@ import { RouteReuseStrategyChange } from './core/models/route-reuse-strategy';
 import { GenreService } from './routes/pages/games-page/services/genre.service';
 
 import { firstValueFrom } from 'rxjs';
-import { AuthLayoutComponent } from './core/layout/auth-layout/auth-layout.component';
 
 function init(genreService: GenreService) {
   return () =>  firstValueFrom(genreService.getGenres());

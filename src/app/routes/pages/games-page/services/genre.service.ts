@@ -22,6 +22,8 @@ export class GenreService {
     return this.httpClient
     .get<GenresResult>(`${environment.BASE_API_URL}genres`)
     .pipe(
+      // delay aplicado para el initializer
+      // delay(2000),
       tap((result) => this.$genres.set(result.results)),
       map((result) => result.results),
       finalize(() => this.$loading.set(false))

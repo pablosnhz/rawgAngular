@@ -38,5 +38,11 @@ Tuve problemas con el funcionamiento del scroll infinito si bien lo tomaba y tod
 
 estuve ajustando temas del responsive agregándole el masonry, como también agregue el infinite scroll, tanto esto como filtros y la query de la búsqueda vienen de un componente abstracto donde comparto lógica especificándole parámetros por medio del override.
 
-Categoria por Genres
+CATEGORIA POR GENRES, REUTILIZACION DE SUBRUTAS
 el simplechanges detecta los cambios del input, se refrescan los datos siempre y cuando haya cambios, aunque tambien estoy viendo el uso de reuseStrategy. porque esto? tengo el problema al iterar sobre los generos que toma las rutas las cuales cambian e incluso se plasma en pantalla el override del titulo pero no el componente por generos, sabiendo que por id podemos navegar por ellos porque no es que pasamos de id a id directamente sino que tenemos que volver a otra ruta para cargar el nuevo id pero en cambio al iterar sobre los genres de manera que pasamos directamente de uno a otro no refleja esos cambios, tengo dos opciones para manejar esto y funcione bien, por medio del ngonchanges o por el uso del reuseStrategy. El cual hice uso del mismo aplicando el reuseStrategy mediante un provide para aplicarlo en la ruta con un data y asi aplicar la actualizacion hacia la reutilizacion.
+
+Aplicamos el initializer para agregar dentro del modulo principal el initializer y la funcion que va a tomar los datos del servicio para que cargue primero los datos y luego lo que veria reflejado en pantalla.
+
+Login y profile
+Para empezar vinculamos los dos componentes para hacer uso del lazyloading con las routes, solucione un tema que tenia con las rutas con el redirect, para solucionarlo en la ruta main agregue en redirect dentro del auth donde defino tambien el lazyloading.
+Para el diseño me base me oriente con el original y para el sistema de login crees dos funciones una para iniciar el form por medio de un formGroup con sus parametros y validatores, la otra funcion para controlar errores, en el caso de que todo pase bien recibe por consola el submit de que todo corre bien.

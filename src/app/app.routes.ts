@@ -24,8 +24,12 @@ export const routes: Routes = [
         path: '',
         loadChildren: () =>
         import('./routes/pages/games-page/auth/auth.routes').then((r) => r.AUTH_ROUTES)
+      },
+      {
+        path: '**',
+        redirectTo: '',
       }
-    ]
+    ],
   },
   {
     path: '**',

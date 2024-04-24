@@ -18,7 +18,6 @@ export class AuthService {
     .pipe(
       delay((1500)),
       finalize(() => this.$loading.set(false))
-
     )
   }
 }

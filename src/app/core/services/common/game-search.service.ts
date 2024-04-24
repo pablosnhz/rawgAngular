@@ -28,15 +28,15 @@ export class GameSearchService {
   // ** refactorizamos porque con el scroll infinito se descoloco el template
   searchGames(filters: SearchFilters): Observable<SearchResult>{
     this.$loading.set(true)
-    let params = new HttpParams({
+    let params: HttpParams = new HttpParams({
       fromObject: { ...filters }
     });
     if(!filters.genres) params = params.delete('genres');
     return this.httpClient
       .get<SearchResult>(`${environment.BASE_API_URL}games`, { params })
       .pipe(
-          finalize(() => this.$loading.set(false)),
-          tap((result) => (this.nextUlr = result.next))
+        tap((result) => (this.nextUlr = result.next)),
+        finalize(() => this.$loading.set(false)),
       )
   }
 

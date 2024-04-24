@@ -127,6 +127,7 @@ export abstract class AbstractGamesPageComponent implements OnInit{
     this.gamesSearchService.queryString$
     .pipe(takeUntil(this.destroy$))
     .subscribe((query: string)=>{
+      // this.filters$.next({ ...this.filters$.getValue(), search: query })
       this.filters$.next({ ...this.defaultSearchFilter, search: query })
     })
   }

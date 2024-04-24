@@ -38,26 +38,30 @@ export class GenrePageComponent extends AbstractGamesPageComponent implements On
     title: 'Genre'
   };
 
-  constructor( private route: Router ){
+  constructor( private router: Router ){
     super();
   }
 
   override ngOnInit(): void {
-    if(!this.$genres().find((genre) => genre.name.toLowerCase() === this.genre.toLowerCase())){
-      this.route.navigate(['/']);
-    } else {
-      this.setGenreParams();
-      super.ngOnInit();
-    }
+    this.setGenreParams();
+    super.ngOnInit();
   }
 
 
 
     setGenreParams():void {
-      const genre: Genre = this.$genres().find(
-        (genre) => genre.name.toLowerCase() === this.genre.toLowerCase())!;
+      const genre: Genre | undefined = this.$genres().find(
+        (genre) => genre.name.toLowerCase() === this.genre.toLowerCase());
 
-      this.componentParams.title = this.genre.slice(0, 1).toUpperCase() + this.genre.slice(1);
+        if(!genre){
+          this.router.navigate(['/games']);
+          return;
+        }
+      this.componentParams = {
+        ...this.componentParams,
+        title: this.genre.slice(0, 1).toUpperCase() + this.genre.slice(1),
+        showFilters: false
+      }
 
       this.defaultSearchFilter = {
         ...this.defaultSearchFilter,

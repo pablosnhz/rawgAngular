@@ -12,14 +12,29 @@
   <div class="p-8 flex flex-col justify-center">
   <form [formGroup]="form" (ngSubmit)="submitClicked$.next()" class="flex flex-col gap-5 w-80">
     <h2 class="text-4xl text-white">Log in</h2>
-    <input formControlName="email" Name="email" type="text" placeholder="Email" class="rounded-xl bg-gray-900 border-none text-white">
-    <input formControlName="password" type="password" placeholder="Password" class="rounded-xl bg-gray-900 border-none text-white">
-      <button class="hover:text-[#000000] rounded- mt-3 bg-[#FFFFFF] hover:bg-gray-100 focus:ring-4 focus:ring-gray-900 rounded-lg text-sm px-6 py-2.5 mb-2">
-        Log in
-        <div *ngIf="$loading()">
-          <app-spinner></app-spinner>
-        </div>
+    <div class="form-group">
+      <input formControlName="email" Name="email" type="text" placeholder="Email" class="rounded-xl bg-gray-900 border-none text-white">
+      <span *ngIf="form.controls['email'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)"
+            class="text-sm text-red-600">Email Invalid</span>
+    </div>
+    <div class="form-group">
+      <input formControlName="password" type="password" placeholder="Password" class="rounded-xl bg-gray-900 border-none text-white">
+      <span *ngIf="form.controls['password'].invalid && (form.controls['password'].dirty || form.controls['password'].touched)"
+            class="text-sm text-red-600">Password is required</span>
+    </div>
+
+
+    <button class="hover:text-[#000000] rounded-mt-3 bg-[#FFFFFF] hover:bg-gray-100 focus:ring-4 focus:ring-gray-900 rounded-lg text-sm px-6 py-2.5 mb-2"
+      *ngIf="!$loading(); else loadingContent">
+      Log in
+    </button>
+
+    <ng-template #loadingContent>
+      <button class="hover:text-[#000000] rounded-mt-3 bg-[#FFFFFF] hover:bg-gray-100 focus:ring-4 focus:ring-gray-900 rounded-lg text-sm px-6 py-2.5 mb-2">
+        <app-spinner></app-spinner>
       </button>
+    </ng-template>
+
 
     <div class="flex items-center">
       <input id="link-checkbox" type="checkbox" formControlName="rememberMe" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
