@@ -43,7 +43,12 @@ el simplechanges detecta los cambios del input, se refrescan los datos siempre y
 
 Aplicamos el initializer para agregar dentro del modulo principal el initializer y la funcion que va a tomar los datos del servicio para que cargue primero los datos y luego lo que veria reflejado en pantalla.
 
-Login y profile
+LOGIN Y PROFILE
 Para empezar vinculamos los dos componentes para hacer uso del lazyloading con las routes, solucione un tema que tenia con las rutas con el redirect, para solucionarlo en la ruta main agregue en redirect dentro del auth donde defino tambien el lazyloading.
 Para el diseño me base me oriente con el original y para el sistema de login crees dos funciones una para iniciar el form por medio de un formGroup con sus parametros y validatores, la otra funcion para controlar errores, en el caso de que todo pase bien recibe por consola el submit de que todo corre bien.
-Para los formularios de usuarios cree tanto la interface como la funcion la cual almaneca los datos dentro del sessionStorage y si se "recuerda la contraseña" se va a guardar en la localStorage, como tambien dos servicios uno para el login con los parametros de usuarios, que con este mismo luego vamos a recuperar el nombre del usuario para mostrarlo por pantalla y el otro donde se van a setear los datos para el almacenamiento en storage como tambien para el logout y limpiar los campos una vez el usuario decida cerrar la sesion.
+Para los formularios de usuarios cree tanto la interface como la funcion la cual almaneca los datos dentro del sessionStorage y si se "recuerda la contraseña" se va a guardar en la localStorage, como tambien dos servicios uno para el login con los parametros de usuarios, que con este mismo luego vamos a recuperar el nombre del usuario para mostrarlo por pantalla y el otro donde se van a setear los datos para el almacenamiento en storage como tambien para el logout y limpiar los campos una vez el usuario decida cerrar la sesion, aplicamos un initializer aca tambien para asegurar de que el usuario sea valido para luego mostrar los datos.
+Generamos los redirects y los guards para asegurar las rutas y poder navegar sobre ellas siempre y cuando el user este loggeado.
+
+El profile comparte los componentes del asideBar y del topBar tal como los componentes heredados, para no vincular de cierta forma el sistema de login con toda la logica en el mismo componente padre heredado, lo hice por separado del componente heredado y vinculando el sistema del profile para compartir el aside y el topbar en el route principal incluyendole el guard, teniendo asi separado el componente heredado, del sistema de login con el profile.
+
+Con esto ya podemos navegar por la rutas siempre y cuando el usuario este registrado, en el caso de no estarlo con el guard le negamos el acceso y nos redirecciona a la pantalla principal pero sin ningun usuario loggeado.

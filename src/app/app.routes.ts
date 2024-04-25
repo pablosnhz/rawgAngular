@@ -1,8 +1,9 @@
 
 import { Routes, withComponentInputBinding } from "@angular/router";
 import { MainLayoutComponent } from "./core/main-layout/main-layout.component";
-import { GAME_LIST_ROUTES } from "./routes/pages/games-page/game-list.routes";
+import { GAME_LIST_ROUTES } from "./routes/pages/games-page/pages/game-list.routes";
 import { AuthLayoutComponent } from "./core/layout/auth-layout/auth-layout.component";
+import { authGuard } from "./core/guards/auth.guard";
 
 export const routes: Routes = [
   {
@@ -12,7 +13,13 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-        import('./routes/pages/games-page/game-list.routes').then((r) => r.GAME_LIST_ROUTES)
+        import('./routes/pages/games-page/pages/game-list.routes').then((r) => r.GAME_LIST_ROUTES)
+      },
+      {
+        path: 'user',
+        canActivate: [authGuard],
+        loadChildren: () =>
+        import('./routes/pages/games-page/user/user.routes').then((r) => r.USER_ROUTES)
       }
     ]
   },
