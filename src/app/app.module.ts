@@ -11,6 +11,7 @@ import { GenreService } from './routes/pages/games-page/services/genre.service';
 
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from './core/services/common/auth.service';
+import { UserLibraryComponent } from './routes/pages/games-page/user/components/user-library/user-library.component';
 
 function init(genreService: GenreService) {
   return () =>  firstValueFrom(genreService.getGenres());
