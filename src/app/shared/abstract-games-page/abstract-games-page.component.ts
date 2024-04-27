@@ -17,7 +17,7 @@ import { Game, SearchResult } from 'src/app/core/models/game';
 @Component({
   selector: 'app-abstract-games-page',
   templateUrl: './abstract-games-page.component.html',
-  imports: [GameListComponent, CommonModule, SpinnerComponent, NgTemplateOutlet, ReactiveFormsModule, InfiniteScrollModule],
+  imports: [GameListComponent, CommonModule, SpinnerComponent, ReactiveFormsModule, InfiniteScrollModule],
   standalone: true,
   providers: [AutoDestroyService],
   changeDetection: ChangeDetectionStrategy.OnPush

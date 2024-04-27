@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Signal, signal } from '@angular/core';
 import { Game } from 'src/app/core/models/game';
 import { GameCardComponent } from '../game-card/game-card.component';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, GameCardComponent]
 })
 export class GameListComponent {
+  $loading: Signal<boolean> = signal(false);
+
   @Input({ required: true }) games: Game[] =[];
 
 

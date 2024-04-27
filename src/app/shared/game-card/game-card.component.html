@@ -4,14 +4,13 @@
               lg:hover:left-0 lg:hover:z-10 transition-transform duration-300
               bg-[#202020] text-white">
 
-  <a [routerLink]="['/games', game.id]">
     <div
       class="flex flex-col group gap-5 h-full sm:scale-100 hover:scale-100 sm:hover:scale-110 transition-transform rounded-md bg-[#202020] text-white">
     <img class="w-full h-47 rounded-lg object-cover" loading="lazy" [src]="game.background_image" alt="{{ game.name }}">
     <div class="p-4 flex flex-col gap-5">
-      <a class="text-2xl font-semibold text-balance hover:text-[#636363]">{{ game.name }}</a>
+      <a [routerLink]="['/games', game.id]"  class="text-2xl font-semibold text-balance hover:text-[#636363]">{{ game.name }}</a>
       <div class="flex items-center gap-2">
-        <button class="py-1 px-2 flex items-center gap-1 bg-[#444444] hover:bg-white hover:text-[#444444] rounded-md">
+        <button (click)="addFavourite()" class="py-1 px-2 flex items-center gap-1 bg-[#444444] hover:bg-white hover:text-[#444444] rounded-md">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="size-4"><path _ngcontent-ng-c1068127508="" stroke="none" d="M0 0h24v24H0z" fill="none"></path><path _ngcontent-ng-c1068127508="" d="M12 5l0 14"></path><path _ngcontent-ng-c1068127508="" d="M5 12l14 0"></path></svg>
           <span class="text-xs">100</span>
         </button>
@@ -45,7 +44,6 @@
       </div>
   </div>
 </div>
-</a>
 
 </div>
 </div>

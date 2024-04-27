@@ -18,7 +18,7 @@ function init(genreService: GenreService) {
 }
 
 function initUser(authService: AuthService) {
-  return () =>  firstValueFrom(authService.setUserFromStorage());
+  return () =>  firstValueFrom(authService.getUserFromStorage());
 }
 
 

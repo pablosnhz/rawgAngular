@@ -14,6 +14,15 @@ export class StorageService {
     return localStorage.getItem(key) || sessionStorage.getItem(key);
   }
 
+  update(key: string, value: any) {
+    const inLocalStorage = localStorage.getItem(key) === null;
+    if(inLocalStorage) {
+      this.set(key, value, sessionStorage);
+    } else {
+      this.set(key, value, localStorage);
+    }
+  }
+
   remove(key: string): void {
     localStorage.removeItem(key);
     sessionStorage.removeItem(key);

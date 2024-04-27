@@ -52,3 +52,6 @@ Generamos los redirects y los guards para asegurar las rutas y poder navegar sob
 El profile comparte los componentes del asideBar y del topBar tal como los componentes heredados, para no vincular de cierta forma el sistema de login con toda la logica en el mismo componente padre heredado, lo hice por separado del componente heredado y vinculando el sistema del profile para compartir el aside y el topbar en el route principal incluyendole el guard, teniendo asi separado el componente heredado, del sistema de login con el profile.
 
 Con esto ya podemos navegar por la rutas siempre y cuando el usuario este registrado, en el caso de no estarlo con el guard le negamos el acceso y nos redirecciona a la pantalla principal pero sin ningun usuario loggeado.
+
+Ahora agregamos juegos al library como si fuera un crud, creamos una funcion dentro de user interface para agregar juegos declarando en el constructor el email, name y el favouriteGames asi poder agregar un juego de tipo Game al array que inicializamos para favoritos.
+Para detectar el cambio del juego agregado usamos un signal con un computed para reaccionar a los cambios de los juegos al agregarlos y para luego agregar el evento de click con la funcion para agregar un juego.

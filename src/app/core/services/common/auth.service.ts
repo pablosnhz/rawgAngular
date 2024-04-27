@@ -17,10 +17,7 @@ export class AuthService {
   login({email, password, rememberMe}: {email: string, password: string, rememberMe: boolean}): Observable<User>  {
     this.$loading.set(true);
     // console.log('login', email, password, rememberMe);
-    const user: User = {
-      email,
-      name: 'Emesse Enne'
-    }
+    const user: User = new User({name: 'Emesse Enne', email: 'pablosanhuezaaa@gmail.com', storageService: this.storageService});
     return of(user)
     .pipe(
       // delay para el spinner
@@ -31,10 +28,11 @@ export class AuthService {
     )
   }
 
-  setUserFromStorage(): Observable<void> {
+  getUserFromStorage(): Observable<void> {
     return new Observable((observer) => {
-      const user: User = this.storageService.get(USER_STORAGE_KEY)
-      ? JSON.parse(this.storageService.get(USER_STORAGE_KEY)) : null;
+      const user: User | null = this.storageService.get(USER_STORAGE_KEY)
+      ? new User({... JSON.parse(this.storageService.get(USER_STORAGE_KEY)), storageService: this.storageService})
+      : null;
     this.$user.set(user);
     observer.next();
     observer.complete();

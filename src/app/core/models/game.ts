@@ -8,7 +8,7 @@ export interface SearchResult {
 export interface Game {
   id: number
   slug: string
-  name: string
+  name: string,
   released: string
   tba: boolean
   background_image: string
@@ -97,6 +97,7 @@ export interface Genre {
 export interface Store {
   id: number
   store: Store2
+  score: number
 }
 
 export interface Store2 {
